@@ -3,6 +3,7 @@ namespace App\Helpers;
 
 use App\Models\Files\File;
 use App\Models\Files\MultiFile;
+use GuzzleHttp\Client;
 
 class Helper {
     /**
@@ -157,4 +158,21 @@ class Helper {
             $mf->delete();
         } 
     }
+
+
+   /**
+   * api
+   *
+   * @param  mixed $method
+   * @param  mixed $url
+   * @param  mixed $form_data
+   * @return void
+   */
+  public static function api($method, $url, $form_data = [])
+  {
+      $client = new Client(['verify' => false]);
+      $response = $client->request($method, $url, $form_data);
+
+      return json_decode($response->getBody()->getContents());
+  }
 }
